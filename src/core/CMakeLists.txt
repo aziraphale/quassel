@@ -28,6 +28,7 @@ set(SOURCES
     ctcpparser.cpp
     eventstringifier.cpp
     ircparser.cpp
+    mysqlstorage.cpp
     netsplit.cpp
     oidentdconfiggenerator.cpp
     postgresqlstorage.cpp
@@ -60,6 +61,7 @@ set(MOC_HDRS
     ctcpparser.h
     eventstringifier.h
     ircparser.h
+    mysqlstorage.h
     netsplit.h
     oidentdconfiggenerator.h
     postgresqlstorage.h
