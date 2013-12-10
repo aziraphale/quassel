@@ -1,14 +1,14 @@
 # 
 # Translators:
-# Daniel Albers <daniel@lbers.com>, 2010-2012.
-# Kristóf Kiszel <ulysses@kubuntu.org>, 2010.
+# Daniel Albers <daniel@lbers.com>, 2010-2012
+# ulysses <ulysses@kubuntu.org>, 2010
 msgid ""
 msgstr ""
 "Project-Id-Version: Quassel IRC\n"
 "Report-Msgid-Bugs-To: http://bugs.quassel-irc.org/\n"
-"PO-Revision-Date: 2013-04-16 00:17+0000\n"
+"PO-Revision-Date: 2013-04-29 08:28+0000\n"
 "Last-Translator: Daniel Albers <daniel@lbe.rs>\n"
-"Language-Team: \n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/quassel/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -673,7 +673,7 @@ msgstr "Keresési minta:"
 msgctxt "ChannelListDlg|"
 msgid ""
 "Toggle between simple and advanced mode.\n"
-"Advanced mode allows to pass search strings to the IRC Server."
+"Advanced mode allows one to pass search strings to the IRC Server."
 msgstr "Válasszon egyszerű és haladó mód között.\nA haladó mód engedi szöveg keresését az IRC szerveren."
 
 #: ../src/qtui/ui/channellistdlg.ui:62

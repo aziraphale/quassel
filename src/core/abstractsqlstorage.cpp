@@ -95,11 +95,14 @@ void AbstractSqlStorage::addConnectionToPool()
         db.setConnectOptions("MYSQL_OPT_RECONNECT=1");
 
     if (!db.open()) {
-        qWarning() << "Unable to open database" << displayName() << "for thread" << QThread::currentThread();
-        qWarning() << "-" << db.lastError().text();
+        quWarning() << "Unable to open database" << displayName() << "for thread" << QThread::currentThread();
+        quWarning() << "-" << db.lastError().text();
     }
     else {
-        initDbSession(db);
+        if (!initDbSession(db)) {
+            quWarning() << "Unable to initialize database" << displayName() << "for thread" << QThread::currentThread();
+            db.close();
+        }
     }
 }
 

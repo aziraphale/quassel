@@ -65,6 +65,7 @@ InputWidget::InputWidget(QWidget *parent)
     ui.underlineButton->setIcon(SmallIcon("format-text-underline"));
     ui.textcolorButton->setIcon(SmallIcon("format-text-color"));
     ui.highlightcolorButton->setIcon(SmallIcon("format-fill-color"));
+    ui.encryptionIconLabel->hide();
 
     _colorMenu = new QMenu();
     _colorFillMenu = new QMenu();
@@ -121,6 +122,9 @@ InputWidget::InputWidget(QWidget *parent)
 
     s.notify("EnableScrollBars", this, SLOT(setScrollBarsEnabled(QVariant)));
     setScrollBarsEnabled(s.value("EnableScrollBars", true));
+
+    s.notify("EnableLineWrap", this, SLOT(setLineWrapEnabled(QVariant)));
+    setLineWrapEnabled(s.value("EnableLineWrap", false));
 
     s.notify("EnableMultiLine", this, SLOT(setMultiLineEnabled(QVariant)));
     setMultiLineEnabled(s.value("EnableMultiLine", true));
@@ -209,6 +213,12 @@ void InputWidget::setScrollBarsEnabled(const QVariant &v)
 }
 
 
+void InputWidget::setLineWrapEnabled(const QVariant &v)
+{
+    ui.inputEdit->setLineWrapEnabled(v.toBool());
+}
+
+
 void InputWidget::setMultiLineEnabled(const QVariant &v)
 {
     ui.inputEdit->setMode(v.toBool() ? MultiLineEdit::MultiLine : MultiLineEdit::SingleLine);
@@ -289,8 +299,24 @@ void InputWidget::dataChanged(const QModelIndex &topLeft, const QModelIndex &bot
     QItemSelectionRange changedArea(topLeft, bottomRight);
     if (changedArea.contains(selectionModel()->currentIndex())) {
         updateEnabledState();
+
+        bool encrypted = false;
+
+        IrcChannel *chan = qobject_cast<IrcChannel *>(Client::bufferModel()->data(selectionModel()->currentIndex(), NetworkModel::IrcChannelRole).value<QObject *>());
+        if (chan)
+            encrypted = chan->encrypted();
+
+        IrcUser *user = qobject_cast<IrcUser *>(Client::bufferModel()->data(selectionModel()->currentIndex(), NetworkModel::IrcUserRole).value<QObject *>());
+        if (user)
+            encrypted = user->encrypted();
+
+        if (encrypted)
+            ui.encryptionIconLabel->show();
+        else
+            ui.encryptionIconLabel->hide();
     }
-};
+}
+
 
 void InputWidget::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end)
 {

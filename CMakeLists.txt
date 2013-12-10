@@ -152,6 +152,16 @@ if(CMAKE_COMPILER_IS_GNUCXX)
   endif()
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
+# ... and for Clang
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wnon-virtual-dtor -Wno-long-long -Wundef -Wcast-align -Wchar-subscripts -Wall -W -Wextra -Wpointer-arith -Wformat-security -Woverloaded-virtual -fno-common -Werror=return-type")
+#  set(CMAKE_CXX_FLAGS_RELEASE        "-O2 -DNDEBUG -DQT_NO_DEBUG")     # Use CMake default
+#  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g -DNDEBUG -DQT_NO_DEBUG")  # Use CMake default
+  set(CMAKE_CXX_FLAGS_DEBUG          "-g -O2 -fno-inline")
+  set(CMAKE_CXX_FLAGS_DEBUGFULL      "-g3 -fno-inline")
+  set(CMAKE_CXX_FLAGS_PROFILE        "-g3 -fno-inline -ftest-coverage -fprofile-arcs")
+endif()
+
 # Mac build stuff
 if(APPLE AND DEPLOY)
   set(CMAKE_OSX_ARCHITECTURES "x86_64")
@@ -325,7 +335,7 @@ if(BUILD_GUI)
       include_directories(${KDE4_INCLUDES})
       add_definitions(-DHAVE_KDE ${KDE4_DEFINITIONS})
       set(HAVE_KDE 1)
-      set(CLIENT_LIBRARIES ${CLIENT_LIBRARIES} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBRARY} ${KDE4_SOLID_LIBS} knotifyconfig)
+      set(CLIENT_LIBRARIES ${CLIENT_LIBRARIES} ${KDE4_KDECORE_LIBS} ${KDE4_KDEUI_LIBRARY} ${KDE4_SOLID_LIBS} ${KDE4_KNOTIFYCONFIG_LIBRARY})
       # We always use external icons for KDE4 support, since we use its iconloader rather than our own
       set(EMBED_DATA OFF)
     else(KDE4_FOUND)

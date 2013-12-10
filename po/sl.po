@@ -1,14 +1,14 @@
 # 
 # Translators:
-# Daniel Albers <daniel@lbers.com>, 2011.
-# Jure Repinc <jlp@holodeck1.com>, 2009-2010.
+# Daniel Albers <daniel@lbers.com>, 2011
+# Jure Repinc <jlp@holodeck1.com>, 2009-2010
 msgid ""
 msgstr ""
 "Project-Id-Version: Quassel IRC\n"
 "Report-Msgid-Bugs-To: http://bugs.quassel-irc.org/\n"
-"PO-Revision-Date: 2013-04-16 00:21+0000\n"
+"PO-Revision-Date: 2013-04-29 08:28+0000\n"
 "Last-Translator: Daniel Albers <daniel@lbe.rs>\n"
-"Language-Team: \n"
+"Language-Team: Slovenian (http://www.transifex.com/projects/p/quassel/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -673,7 +673,7 @@ msgstr "Iskalni vzorec:"
 msgctxt "ChannelListDlg|"
 msgid ""
 "Toggle between simple and advanced mode.\n"
-"Advanced mode allows to pass search strings to the IRC Server."
+"Advanced mode allows one to pass search strings to the IRC Server."
 msgstr "Preklopi med preprostim in naprednim načinom.\nNapredni način omogoča pošiljanje iskalnih nizov na strežnik za IRC."
 
 #: ../src/qtui/ui/channellistdlg.ui:62

@@ -170,6 +170,13 @@ QByteArray Cipher::initKeyExchange()
 QByteArray Cipher::parseInitKeyX(QByteArray key)
 {
     QCA::Initializer init;
+    bool isCBC = false;
+
+    if (key.endsWith(" CBC"))
+    {
+        isCBC = true;
+        key.chop(4);
+    }
 
     if (key.length() != 181)
         return QByteArray();
@@ -197,6 +204,9 @@ QByteArray Cipher::parseInitKeyX(QByteArray key)
 
     //remove trailing = because mircryption and fish think it's a swell idea.
     while (sharedKey.endsWith('=')) sharedKey.chop(1);
+
+    if (isCBC)
+        sharedKey.prepend("cbc:");
 
     bool success = setKey(sharedKey);
 
@@ -473,6 +483,5 @@ bool Cipher::neededFeaturesAvailable()
     if (QCA::isSupported("blowfish-ecb") && QCA::isSupported("blowfish-cbc") && QCA::isSupported("dh"))
         return true;
 
-    qWarning() << "QCA provider plugin not found. It is usually provided by the qca-ossl plugin.";
     return false;
 }

@@ -24,13 +24,15 @@
 #include "iconloader.h"
 #include "networkmodel.h"
 #include "uisettings.h"
+#include "graphicalui.h"
+#include "uistyle.h"
 
 TopicWidget::TopicWidget(QWidget *parent)
     : AbstractItemView(parent)
 {
     ui.setupUi(this);
     ui.topicEditButton->setIcon(SmallIcon("edit-rename"));
-    ui.topicLineEdit->setWordWrapEnabled(true);
+    ui.topicLineEdit->setLineWrapEnabled(true);
     ui.topicLineEdit->installEventFilter(this);
 
     connect(ui.topicLabel, SIGNAL(clickableActivated(Clickable)), SLOT(clickableActivated(Clickable)));
@@ -154,12 +156,12 @@ void TopicWidget::setTopic(const QModelIndex &index)
         }
     }
 
-    _topic = newtopic;
+    _topic = sanitizeTopic(newtopic);
     _readonly = readonly;
 
     ui.topicEditButton->setVisible(!_readonly);
-    ui.topicLabel->setText(newtopic);
-    ui.topicLineEdit->setPlainText(newtopic);
+    ui.topicLabel->setText(_topic);
+    ui.topicLineEdit->setPlainText(_topic);
     switchPlain();
 }
 
@@ -191,7 +193,8 @@ void TopicWidget::updateResizeMode()
 void TopicWidget::clickableActivated(const Clickable &click)
 {
     NetworkId networkId = selectionModel()->currentIndex().data(NetworkModel::NetworkIdRole).value<NetworkId>();
-    click.activate(networkId, _topic);
+    UiStyle::StyledString sstr = GraphicalUi::uiStyle()->styleString(GraphicalUi::uiStyle()->mircToInternal(_topic), UiStyle::PlainMsg);
+    click.activate(networkId, sstr.plainText);
 }
 
 
@@ -260,4 +263,17 @@ bool TopicWidget::eventFilter(QObject *obj, QEvent *event)
     }
 
     return false;
+}
+
+QString TopicWidget::sanitizeTopic(const QString& topic)
+{
+    // Normally, you don't have new lines in topic messages
+    // But the use of "plain text" functionnality from Qt replaces
+    // some unicode characters with a new line, which then triggers
+    // a stack overflow later
+    QString result(topic);
+    result.replace(QChar::ParagraphSeparator, " ");
+    result.replace(QChar::LineSeparator, " ");
+
+    return result;
 }

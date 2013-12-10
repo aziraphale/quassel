@@ -444,7 +444,7 @@ void CoreSessionEventProcessor::processIrcEventTopic(IrcEvent *e)
 void CoreSessionEventProcessor::processKeyEvent(KeyEvent *e)
 {
     if (!Cipher::neededFeaturesAvailable()) {
-        emit newEvent(new MessageEvent(Message::Error, e->network(), tr("Unable to perform key exchange."), e->prefix(), e->target(), Message::None, e->timestamp()));
+        emit newEvent(new MessageEvent(Message::Error, e->network(), tr("Unable to perform key exchange, missing qca-ossl plugin."), e->prefix(), e->target(), Message::None, e->timestamp()));
         return;
     }
     CoreNetwork *net = qobject_cast<CoreNetwork*>(e->network());
@@ -1016,7 +1016,7 @@ void CoreSessionEventProcessor::handleCtcpClientinfo(CtcpEvent *e)
 
 void CoreSessionEventProcessor::handleCtcpPing(CtcpEvent *e)
 {
-    e->setReply(e->param());
+    e->setReply(e->param().isNull() ? "" : e->param());
 }
 
 
