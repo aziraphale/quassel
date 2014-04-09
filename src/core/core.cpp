@@ -24,6 +24,7 @@
 #include "coresession.h"
 #include "coresettings.h"
 #include "internalpeer.h"
+#include "mysqlstorage.h"
 #include "postgresqlstorage.h"
 #include "quassel.h"
 #include "sqlitestorage.h"
@@ -188,7 +189,7 @@ void Core::init()
     if (!_configured) {
         if (!_storageBackends.count()) {
             qWarning() << qPrintable(tr("Could not initialize any storage backend! Exiting..."));
-            qWarning() << qPrintable(tr("Currently, Quassel supports SQLite3 and PostgreSQL. You need to build your\n"
+            qWarning() << qPrintable(tr("Currently, Quassel supports SQLite3, MySQL, and PostgreSQL. You need to build your\n"
                                         "Qt library with the sqlite or postgres plugin enabled in order for quasselcore\n"
                                         "to work."));
             exit(1); // TODO make this less brutal (especially for mono client -> popup)
@@ -312,6 +313,7 @@ void Core::registerStorageBackends()
     // Register storage backends here!
     registerStorageBackend(new SqliteStorage(this));
     registerStorageBackend(new PostgreSqlStorage(this));
+    registerStorageBackend(new MySqlStorage(this));
 }
 
 
