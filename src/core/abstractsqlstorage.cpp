@@ -90,6 +90,10 @@ void AbstractSqlStorage::addConnectionToPool()
         db.setPassword(password());
     }
 
+    // moo
+    if (driverName() == "QMYSQL")
+        db.setConnectOptions("MYSQL_OPT_RECONNECT=1");
+
     if (!db.open()) {
         quWarning() << "Unable to open database" << displayName() << "for thread" << QThread::currentThread();
         quWarning() << "-" << db.lastError().text();
